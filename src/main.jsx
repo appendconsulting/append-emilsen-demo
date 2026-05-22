@@ -1,14 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Bot, CheckCircle2, ChevronRight, Database, Download, FileCheck2, FileText, Fish, Loader2, MessageSquareText, Paperclip, Send, ShieldCheck, Sparkles, UploadCloud } from 'lucide-react';
+import { Bot, CheckCircle2, ChevronRight, Database, Download, FileCheck2, FileText, Fish, Loader2, MessageSquareText, Send, Sparkles, UploadCloud } from 'lucide-react';
 import './styles.css';
-
-const documents = [
-  { name: 'Internkontroll_2024.pdf', meta: 'HMS, roller og rutiner', pages: 42 },
-  { name: 'Fiskehelserapport_Q1_2026.pdf', meta: 'Veterinærstatus Q1', pages: 18 },
-  { name: 'Lokalitet_3_tillatelse.pdf', meta: 'Tillatelser og MTB', pages: 9 },
-  { name: 'BioMar_fôrplan_vår2026.pdf', meta: 'Fôrstrategi vår', pages: 12 },
-];
 
 const detectedFields = [
   ['Lokalitet', 'Internkontroll'],
@@ -31,8 +24,8 @@ const reportData = {
 const initialMessages = [
   {
     role: 'assistant',
-    text: 'Hei! Jeg kan svare på spørsmål basert på dokumentene som er lastet opp for Emilsen Fisk. Prøv for eksempel: «Når var siste avlusing?»',
-    source: 'Dokumentindeks, oppdatert 22.05.2026',
+    text: 'Hei! Jeg har tilgang til EK, internkontroll, FishTalk, fiskehelserapporter og leverandørdata. Spør meg om hva som helst om driften – prøv for eksempel: «Når var siste avlusing?»',
+    source: 'Tilkoblet 6 datakilder · Oppdatert i sanntid',
   },
 ];
 
@@ -78,14 +71,14 @@ function App() {
           <p>En rolig arbeidsflate som viser hvordan dokumenter, fagsystemer og rapportmaler kan kobles sammen.</p>
         </div>
         <div className="hero-stats">
-          <div><strong>4</strong><span>dokumenter indeksert</span></div>
+          <div><strong>6</strong><span>datakilder tilkoblet</span></div>
           <div><strong>6</strong><span>rapportfelt mappet</span></div>
           <div><strong>0</strong><span>backend-kall</span></div>
         </div>
       </section>
 
       <nav className="tabs" aria-label="Demo-faner">
-        <button className={activeTab === 'chat' ? 'active' : ''} onClick={() => setActiveTab('chat')}><MessageSquareText size={18} /> Dokumentassistent</button>
+        <button className={activeTab === 'chat' ? 'active' : ''} onClick={() => setActiveTab('chat')}><MessageSquareText size={18} /> Informasjonsassistent</button>
         <button className={activeTab === 'report' ? 'active' : ''} onClick={() => setActiveTab('report')}><FileCheck2 size={18} /> Rapportgenerator</button>
       </nav>
 
@@ -117,22 +110,9 @@ function DocumentAssistant() {
 
   return (
     <section className="workspace-grid chat-grid">
-      <aside className="side-panel">
-        <div className="panel-title"><Paperclip size={18} /> Opplastede dokumenter</div>
-        <div className="doc-list">
-          {documents.map(doc => (
-            <article className="doc-card" key={doc.name}>
-              <FileText size={22} />
-              <div><strong>{doc.name}</strong><span>{doc.meta} · {doc.pages} sider</span></div>
-            </article>
-          ))}
-        </div>
-        <div className="trust-box"><ShieldCheck size={18} /> Svarene simulerer kildebasert oppslag i dokumentene.</div>
-      </aside>
-
       <section className="chat-panel">
         <header className="section-header">
-          <div><h2>Dokumentassistent</h2><p>Still spørsmål på norsk og få svar med dokumentkilde.</p></div>
+          <div><h2>Informasjonsassistent</h2><p>Still spørsmål om drift, lokaliteter og rapportering – jeg har tilgang til alle systemer.</p></div>
           <span className="status-pill"><span /> Indeks klar</span>
         </header>
         <div className="suggestions">

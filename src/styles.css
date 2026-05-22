@@ -37,7 +37,8 @@ p { color: var(--muted); line-height: 1.6; }
 .tabs button.active { color: var(--accent); }
 .tabs button.active::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; border-radius: 999px; background: var(--accent); }
 .workspace-grid { display: grid; gap: 20px; }
-.chat-grid, .report-grid { grid-template-columns: 320px minmax(0, 1fr); }
+.chat-grid { grid-template-columns: 1fr; }
+.report-grid { grid-template-columns: 320px minmax(0, 1fr); }
 .side-panel, .chat-panel, .generator-panel { border: 1px solid var(--line); border-radius: 22px; background: var(--surface); box-shadow: var(--shadow); }
 .side-panel { padding: 20px; }
 .panel-title, .section-header, .status-pill, .doc-card, .trust-box, .uploaded-file, .source-row, .field-row div, .progress-copy, .steps, .report-top, .toast { display: flex; align-items: center; gap: 10px; }
