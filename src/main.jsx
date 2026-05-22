@@ -66,11 +66,16 @@ function App() {
   const [activeTab, setActiveTab] = useState('chat');
   return (
     <main className="app-shell">
-      <section className="hero-card">
+      <header className="topbar">
+        <div className="brand-mark">Append Consulting × Emilsen Fisk</div>
+        <span>AI-demo</span>
+      </header>
+
+      <section className="intro-card">
         <div>
-          <div className="eyebrow"><Sparkles size={16} /> Append Consulting × Emilsen Fisk</div>
+          <p className="eyebrow"><Sparkles size={14} /> Frontend-simulering</p>
           <h1>AI-demo for dokumentinnsikt og automatisk rapportering</h1>
-          <p>En realistisk frontend-simulering av hvordan Append kan koble oppdrettsdokumenter, fagsystemer og rapportmaler i én trygg arbeidsflate.</p>
+          <p>En rolig arbeidsflate som viser hvordan dokumenter, fagsystemer og rapportmaler kan kobles sammen.</p>
         </div>
         <div className="hero-stats">
           <div><strong>4</strong><span>dokumenter indeksert</span></div>
