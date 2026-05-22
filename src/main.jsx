@@ -68,7 +68,6 @@ function App() {
         <div>
           <p className="eyebrow"><Sparkles size={14} /> Frontend-simulering</p>
           <h1>AI-demo for dokumentinnsikt og automatisk rapportering</h1>
-          <p>En rolig arbeidsflate som viser hvordan dokumenter, fagsystemer og rapportmaler kan kobles sammen.</p>
         </div>
         <div className="hero-stats">
           <div><strong>6</strong><span>datakilder tilkoblet</span></div>
