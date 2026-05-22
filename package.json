@@ -1,7 +1,7 @@
 {
   "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
+    "dev": "cp index.source.html index.html && vite --host 0.0.0.0",
+    "build": "cp index.source.html index.html && vite build && rm -rf assets && cp -R dist/assets assets && cp dist/index.html index.html",
     "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
