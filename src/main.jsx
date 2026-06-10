@@ -1,57 +1,57 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Bot, CheckCircle2, ChevronRight, Database, Download, FileCheck2, FileText, Fish, Loader2, MessageSquareText, Send, Sparkles, UploadCloud } from 'lucide-react';
+import { Bot, CheckCircle2, ChevronRight, Database, Download, FileCheck2, FileText, Files, Loader2, MessageSquareText, Send, Sparkles, UploadCloud } from 'lucide-react';
 import './styles.css';
 
 const detectedFields = [
-  ['Lokalitet', 'Internkontroll'],
-  ['Antall fisk', 'FishTalk'],
-  ['Siste avlusningsdato', 'Fiskehelserapport'],
-  ['Ansvarlig områdeleder', 'Internkontroll'],
-  ['MTB-utnyttelse %', 'FishTalk'],
-  ['Veterinæransvarlig', 'Fiskehelserapport'],
+  ['Rapportperiode', 'Excel/CSV-eksport'],
+  ['Nøkkeltall for drift', 'ERP/fagsystem'],
+  ['Åpne avvik', 'Kvalitetssystem'],
+  ['Ansvarlig leder', 'Organisasjonsdata'],
+  ['Kommentar til utvikling', 'Månedsnotater'],
+  ['Tiltak neste periode', 'Prosjektverktøy'],
 ];
 
 const reportData = {
-  'Lokalitet': 'Lokalitet 3 – Langøyfjorden',
-  'Antall fisk': '812 450 stk atlantisk laks',
-  'Siste avlusningsdato': '14. april 2026',
-  'Ansvarlig områdeleder': 'Kari Nilsen',
-  'MTB-utnyttelse %': '78,4 %',
-  'Veterinæransvarlig': 'Dr. Ingrid Vikan, AquaVet Nord',
+  'Rapportperiode': 'Mai 2026',
+  'Område': 'Region Nord · Produksjon og drift',
+  'Nøkkeltall': '97,8 % leveransegrad · 14 åpne avvik',
+  'Ansvarlig leder': 'Kari Nilsen',
+  'Viktigste tiltak': 'Automatisk varsling ved avvik over terskelverdi',
+  'Datagrunnlag': 'ERP, kvalitetssystem, Excel-eksport og PDF-notater',
 };
 
 const initialMessages = [
   {
     role: 'assistant',
-    text: 'Hei! Jeg har tilgang til EK, internkontroll, FishTalk, fiskehelserapporter og leverandørdata. Spør meg om hva som helst om driften – prøv for eksempel: «Når var siste avlusing?»',
-    source: 'Tilkoblet 6 datakilder · Oppdatert i sanntid',
+    text: 'Hei! Jeg er koblet til dokumenter, rapportmaler og fagsystemer. Spør meg om drift, avvik, nøkkeltall eller datagrunnlag – prøv for eksempel: «Hvilke avvik må følges opp denne måneden?»',
+    source: 'Tilkoblet 5 datakilder · Demo med simulerte data',
   },
 ];
 
 function getAnswer(question) {
   const q = question.toLowerCase();
-  if (q.includes('avlusing') || q.includes('avlusning') || q.includes('siste behandling')) {
+  if (q.includes('avvik') || q.includes('følge') || q.includes('oppfølging')) {
     return {
-      text: 'Siste registrerte avlusing var 14. april 2026 på Lokalitet 3 – Langøyfjorden. Behandlingen ble gjennomført med ferskvannsbehandling, og ansvarlig veterinær var Dr. Ingrid Vikan fra AquaVet Nord.',
-      source: 'Kilde: Fiskehelserapport_Q1_2026.pdf, side 4',
+      text: 'Jeg finner 14 åpne avvik i perioden. Tre bør prioriteres fordi de har høy risiko eller nærmer seg frist: manglende signering av kontrollskjema, forsinket vedlikeholdskontroll og uavklart leverandøravvik.',
+      source: 'Kilde: Kvalitetssystem · Avvikslogg mai 2026',
     };
   }
-  if (q.includes('fôrplan') || q.includes('forplan') || q.includes('vår') || q.includes('biomar') || q.includes('fôr')) {
+  if (q.includes('nøkkeltall') || q.includes('kpi') || q.includes('måned') || q.includes('status')) {
     return {
-      text: 'Vårplanen anbefaler BioMar EFICO Enviro 920 i vekslende pelletstørrelse 6–9 mm. Planlagt fôrmengde er 1 280 tonn for perioden mars–mai, med justering etter temperaturkurve og appetittscore.',
-      source: 'Kilde: BioMar_fôrplan_vår2026.pdf, side 3',
+      text: 'Månedsstatusen viser 97,8 % leveransegrad, 4,2 % lavere energiforbruk enn budsjett og 14 åpne avvik. Den viktigste endringen fra forrige måned er redusert responstid på kritiske hendelser.',
+      source: 'Kilde: ERP-eksport, driftsdashboard og månedsnotat',
     };
   }
-  if (q.includes('mtb') || q.includes('maksimal') || q.includes('tillatelse') || q.includes('lokalitet 3')) {
+  if (q.includes('rapport') || q.includes('mal') || q.includes('styre') || q.includes('ledelse')) {
     return {
-      text: 'Tillatt MTB for Lokalitet 3 er 3 120 tonn. Dokumentet angir at biomassen skal fordeles på seks merder, med månedlig kontroll mot FishTalk og rapportering ved avvik over 85 % utnyttelse.',
-      source: 'Kilde: Lokalitet_3_tillatelse.pdf, side 2',
+      text: 'Rapportmalen kan fylles automatisk med nøkkeltall, avviksstatus, kommentarer og foreslåtte tiltak. Felter som krever faglig vurdering markeres tydelig før eksport til PDF eller Word.',
+      source: 'Kilde: Ledelsesrapport_mal.docx og datakartlegging',
     };
   }
   return {
-    text: 'Jeg fant relevante opplysninger i internkontrollmaterialet. Dokumentene peker på at avvik skal registreres innen 24 timer, kvalitetssikres av områdeleder og lukkes med korrigerende tiltak før neste månedsrapportering.',
-    source: 'Kilde: Internkontroll_2024.pdf, side 17',
+    text: 'Jeg fant relevante opplysninger i dokumentgrunnlaget. Dataene kan kobles til rapportmalen, men to felter bør kvalitetssikres manuelt før innsending: fritekstkommentar og endelig tiltaksansvarlig.',
+    source: 'Kilde: Dokumentindeks · Rapportgrunnlag mai 2026',
   };
 }
 
@@ -60,14 +60,15 @@ function App() {
   return (
     <main className="app-shell">
       <header className="topbar">
-        <div className="brand-mark">Append Consulting × Emilsen Fisk</div>
-        <span>AI-demo</span>
+        <div className="brand-mark">Append Consulting</div>
+        <span>AI-demo · automatisert rapportering</span>
       </header>
 
       <section className="intro-card">
         <div>
           <p className="eyebrow"><Sparkles size={14} /> Frontend-simulering</p>
-          <h1>AI-demo for dokumentinnsikt og automatisk rapportering</h1>
+          <h1>Automatisert rapportering fra dokumenter og fagsystemer</h1>
+          <p>En universell demo som viser hvordan virksomheter kan hente data fra flere kilder, fylle rapportmaler automatisk og la fagpersoner kvalitetssikre før utsending.</p>
         </div>
       </section>
 
@@ -106,11 +107,11 @@ function DocumentAssistant() {
     <section className="workspace-grid chat-grid">
       <section className="chat-panel">
         <header className="section-header">
-          <div><h2>Informasjonsassistent</h2><p>Still spørsmål om drift, lokaliteter og rapportering – jeg har tilgang til alle systemer.</p></div>
+          <div><h2>Informasjonsassistent</h2><p>Still spørsmål på tvers av dokumenter, rapporter og fagsystemer – med kildehenvisning tilbake til datagrunnlaget.</p></div>
           <span className="status-pill"><span /> Indeks klar</span>
         </header>
         <div className="suggestions">
-          {['Når var siste avlusing?', 'Hva er fôrplanen for vår?', 'Hva er MTB på lokalitet 3?'].map(s => <button key={s} onClick={() => ask(s)}>{s}</button>)}
+          {['Hvilke avvik må følges opp denne måneden?', 'Vis nøkkeltall for måneden', 'Kan rapportmalen fylles automatisk?'].map(s => <button key={s} onClick={() => ask(s)}>{s}</button>)}
         </div>
         <div className="messages">
           {messages.map((msg, idx) => <ChatMessage key={idx} msg={msg} />)}
@@ -118,7 +119,7 @@ function DocumentAssistant() {
           <div ref={bottomRef} />
         </div>
         <form className="chat-input" onSubmit={(e) => { e.preventDefault(); ask(); }}>
-          <input value={input} onChange={e => setInput(e.target.value)} placeholder="Skriv et spørsmål om dokumentene …" />
+          <input value={input} onChange={e => setInput(e.target.value)} placeholder="Skriv et spørsmål om rapportgrunnlaget …" />
           <button type="submit"><Send size={18} /> Send</button>
         </form>
       </section>
@@ -165,9 +166,10 @@ function ReportGenerator() {
   }
 
   const sourceStatus = useMemo(() => [
-    ['Internkontroll', uploaded ? 'Tilkoblet' : 'Venter'],
-    ['FishTalk', generating || ready ? 'Data hentet' : 'Klar'],
-    ['Fiskehelserapport', generating || ready ? 'Verifisert' : 'Klar'],
+    ['Rapportmal', uploaded ? 'Lastet inn' : 'Venter'],
+    ['ERP/fagsystem', generating || ready ? 'Data hentet' : 'Klar'],
+    ['Kvalitetssystem', generating || ready ? 'Verifisert' : 'Klar'],
+    ['Excel/CSV', generating || ready ? 'Mappet' : 'Klar'],
   ], [uploaded, generating, ready]);
 
   return (
@@ -178,12 +180,12 @@ function ReportGenerator() {
           {sourceStatus.map(([name, status]) => <div className="source-row" key={name}><span>{name}</span><strong>{status}</strong></div>)}
         </div>
         <button className="primary wide" onClick={uploadTemplate}><UploadCloud size={18} /> Last opp mal</button>
-        {uploaded && <div className="uploaded-file"><FileText size={19} /> Mattilsynet_kontrollskjema.pdf</div>}
+        {uploaded && <div className="uploaded-file"><FileText size={19} /> Ledelsesrapport_mal.docx</div>}
       </aside>
 
       <section className="generator-panel">
         <header className="section-header">
-          <div><h2>Rapportgenerator</h2><p>Systemet leser malen, finner felter og fyller dem med kvalitetssikrede data.</p></div>
+          <div><h2>Rapportgenerator</h2><p>Systemet leser malen, identifiserer felter og fyller dem med kvalitetssikrede data fra valgte kilder.</p></div>
           <span className="status-pill"><span /> Simulert frontendflyt</span>
         </header>
 
@@ -198,9 +200,9 @@ function ReportGenerator() {
         </div>}
 
         {generating && <div className="progress-card animate-in">
-          <div className="progress-copy"><strong>Henter data fra kildene</strong><span>{progress}%</span></div>
+          <div className="progress-copy"><strong>Henter og kvalitetssikrer data</strong><span>{progress}%</span></div>
           <div className="progress-track"><div style={{ width: `${progress}%` }} /></div>
-          <div className="steps"><span>Leser mal</span><ChevronRight size={15} /><span>Mapper felter</span><ChevronRight size={15} /><span>Validerer data</span></div>
+          <div className="steps"><span>Leser mal</span><ChevronRight size={15} /><span>Mapper felter</span><ChevronRight size={15} /><span>Validerer kilder</span></div>
         </div>}
 
         {ready && <ReportPreview downloaded={downloaded} onDownload={() => { setDownloaded(true); setTimeout(() => setDownloaded(false), 3000); }} />}
@@ -210,17 +212,17 @@ function ReportGenerator() {
 }
 
 function EmptyState() {
-  return <div className="empty-state"><Fish size={42} /><h3>Start med en rapportmal</h3><p>Klikk «Last opp mal» for å simulere opplasting av Mattilsynets kontrollskjema.</p></div>;
+  return <div className="empty-state"><Files size={42} /><h3>Start med en rapportmal</h3><p>Klikk «Last opp mal» for å simulere opplasting av en Word-, Excel- eller PDF-mal.</p></div>;
 }
 
 function ReportPreview({ downloaded, onDownload }) {
   return (
     <article className="report-preview animate-in">
-      <div className="report-top"><div><p>Ferdig utfylt rapport</p><h3>Mattilsynet kontrollskjema – Emilsen Fisk</h3></div><span>Utkast · 22.05.2026</span></div>
+      <div className="report-top"><div><p>Ferdig utfylt rapport</p><h3>Ledelsesrapport · automatisk utkast</h3></div><span>Utkast · 10.06.2026</span></div>
       <div className="report-fields">
         {Object.entries(reportData).map(([key, value]) => <div key={key}><span>{key}</span><strong>{value}</strong></div>)}
       </div>
-      <div className="report-note"><strong>Kontrollnotat:</strong> Alle felter er automatisk utfylt fra oppgitte kilder og markert for faglig gjennomgang før innsending.</div>
+      <div className="report-note"><strong>Kontrollnotat:</strong> Alle felter er automatisk utfylt fra oppgitte kilder. Felter med faglig skjønn markeres for gjennomgang før rapporten deles eller sendes inn.</div>
       <button className="secondary" onClick={onDownload}><Download size={18} /> Last ned rapport</button>
       {downloaded && <div className="toast"><CheckCircle2 size={18} /> Rapporten er klargjort for nedlasting.</div>}
     </article>
