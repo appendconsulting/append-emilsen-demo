@@ -61,14 +61,12 @@ function App() {
     <main className="app-shell">
       <header className="topbar">
         <div className="brand-mark">Append Consulting</div>
-        <span>AI-demo · automatisert rapportering</span>
       </header>
 
       <section className="intro-card">
         <div>
-          <p className="eyebrow"><Sparkles size={14} /> Frontend-simulering</p>
-          <h1>Automatisert rapportering fra dokumenter og fagsystemer</h1>
-          <p>En universell demo som viser hvordan virksomheter kan hente data fra flere kilder, fylle rapportmaler automatisk og la fagpersoner kvalitetssikre før utsending.</p>
+          <h1>Snakk med egen data</h1>
+          <p>Slutt å lete etter informasjon – la systemet finne den for deg. Still spørsmål, få svar og generer rapporter direkte fra egne data.</p>
         </div>
       </section>
 
